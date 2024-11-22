@@ -1,8 +1,8 @@
 <?php
 session_start(); // -> harus ditambahkan ketika menggunakan session
 
-// REDIRECT USER YANG SUDAH BELUM LOGIN KE HALAMAN LOGIN
-if ( !isset($_SESSION['login']) ) { // -> APAKAH 
+// REDIRECT USER YANG BELUM LOGIN KE HALAMAN LOGIN
+if ( !isset($_SESSION['login']) ) { // -> APAKAH $_SESSION['LOGIN'] BELUM DIDEKLARASI?
     header('Location: auth/login.php');
     exit;
 }
@@ -10,22 +10,32 @@ if ( !isset($_SESSION['login']) ) { // -> APAKAH
 include('koneksi.php');
 
 // CEK APAKAH TOMBOL SUBMIT SUDAH DIPENCET?
-if(isset($_GET['submit'])) { // -> isset() => mengecek apakah variable sudah dideklarasi atau belum
+if(isset($_GET['submit'])) { // -> isset() => mengecek apakah variable $_GET['submit'] sudah dideklarasi atau belum
+    
     $id = '';
-    $nama = $_GET['nama']; // -> ['nama'] berasal dari name="nama"
+    $nama = $_GET['nama']; // -> $_GET['nama'] berasal dari name="nama"
     $nis = $_GET['nis'];
     $asal = $_GET['alamat'];
     $kelas = $_GET['kelas'];
     $tanggal_lahir = $_GET['tanggal_lahir'];
     
+    // QUERY INSERT DATA SANTRI.
     $result = mysqli_query(
         $conn, 
         "INSERT INTO profiles(id, nama, nis, kelas, asal, tanggal_lahir)
             VALUES ('$id', '$nama', '$nis', '$kelas', '$asal', '$tanggal_lahir')"
     );
 
+    // CEK HASIL QUERY
     if ($result) {
-        header('location: index.php'); //-> header => mengalihkan ke halaman lain
+        echo "<script>
+            alert('Berhasil menambahkan data $nama');
+            window.location.replace('index.php');
+        </script>";
+    } else {
+        echo "<script>
+            alert('Gagal menambahkan data.');
+        </script>";
     }
 }
 

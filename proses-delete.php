@@ -9,11 +9,12 @@ if ( !isset($_SESSION['login']) ) {
 
 require('koneksi.php');
 
+// CEK APAKAH ADA VARIABLE $_POST['id'] DAN VARIABLE TERSEBUT TIDAK KOSONG
 if ( isset($_POST['id']) && !empty($_POST['id']) ) {
-    // TANGKAP ID LALU TARUH DI VARIABLE
+    // TANGKAP id LALU TARUH DI VARIABLE $id
     $id = $_POST['id'];
 
-    // HAPUS DATA BERDASARKAN ID
+    // HAPUS DATA BERDASARKAN $id
     $result = mysqli_query($conn, "DELETE FROM profiles WHERE id = $id");
 
     if($result) {

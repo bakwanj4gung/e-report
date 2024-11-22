@@ -1,8 +1,8 @@
 <?php
 session_start(); // -> harus ditambahkan ketika menggunakan session
 
-// REDIRECT USER YANG SUDAH BELUM LOGIN KE HALAMAN LOGIN
-if ( !isset($_SESSION['login']) ) { // -> APAKAH 
+// REDIRECT USER YANG BELUM LOGIN KE HALAMAN LOGIN
+if ( !isset($_SESSION['login']) ) { // -> APAKAH $_SESSION['LOGIN'] BELUM DIDEKLARASI?
     header('Location: auth/login.php');
     exit;
 }
@@ -12,28 +12,11 @@ require('koneksi.php');
 
 // AMBIL DATA SANTRI / QUERY DATA SANTRI
 // mysqli_query($conn, SQL SYNTAX)
-// nama variable biasanya -> $result
+// nama variable untuk menampung hasi query biasanya -> $result
 $result = mysqli_query($conn, 'SELECT * FROM profiles'); // -> Inti Manipulasi data ada di QUERY
 
+// VARIABLE UNTUK NOMOR
 $i = 1;
-
-if( isset($_GET['del']) && isset($_GET['id']) ) {
-    // ubah isi dari del ke boolean
-    $delete = $_GET['del'] === 'true' ? true : false; //-> ternary (if else satu baris)
-    $id = $_GET['id'];
-
-    if($delete) {
-        $result = mysqli_query($conn, "DELETE FROM profiles WHERE id=$id");
-        
-        if ($result) {
-            echo "<script> 
-            alert('data berhasil dihapus');
-            document.location.href('index.php');
-            </script>";
-        }
-    }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +49,8 @@ if( isset($_GET['del']) && isset($_GET['id']) ) {
                         <td><?php echo $i?></td>
                         <td>
                             <a href="edit.php?id=<?php echo $baris['id']?>">EDIT</a> |
-                            <!-- MENGGUNAKAN POST AGAR ID YANG DIKIRM TIDAK TERLIHAT -->
+                            <!-- MENGGUNAKAN POST AGAR ID YANG DIKIRIM TIDAK TERLIHAT -->
+                            <!-- Proses delete terjadi di file proses-delete.php -->
                             <form action="proses-delete.php" method="post">
                                 <!-- input tidak terlihat dan tidak bisa diubah, hanya untuk mengirim id -->
                                 <input readonly type="hidden" name="id" value="<?= $baris['id'] ?>">

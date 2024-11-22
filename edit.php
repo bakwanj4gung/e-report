@@ -35,7 +35,6 @@ if (isset($_POST['submit'])) {
         </script>";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -46,27 +45,29 @@ if (isset($_POST['submit'])) {
         <title>EDIT DATA</title>
     </head>
     <body>
-        <h1>EDIT DATA <?= $data['nama'] ?></h1>
+        <h1>EDIT DATA <?= htmlspecialchars($data['nama'], ENT_QUOTES, 'UTF-8') ?></h1>
         <form action="" method="post">
             <div>
                 <label for="nama">Nama: </label>
-                <input type="text" name="nama" id="nama" value=<?= $data['nama'] ?>>
+                <!-- htmlspecialchars() => untuk escape HTML Special Character.
+                Baca: https://www.w3schools.com/html/html_symbols.asp -->
+                <input type="text" name="nama" id="nama" value="<?= htmlspecialchars($data['nama'], ENT_QUOTES, 'UTF-8') ?>" required>
             </div>
             <div>
                 <label for="nis">NIS: </label>
-                <input type="number" name="nis" id="nis" value=<?= $data['nis'] ?>>
+                <input type="number" name="nis" id="nis" value="<?= htmlspecialchars($data['nis'], ENT_QUOTES, 'UTF-8') ?>" required>
             </div>
             <div>
                 <label for="kelas">Kelas: </label>
-                <input type="text" name="kelas" id="kelas" value=<?= $data['kelas'] ?>>
+                <input type="text" name="kelas" id="kelas" value="<?= htmlspecialchars($data['kelas'], ENT_QUOTES, 'UTF-8') ?>" required>
             </div>
             <div>
                 <label for="alamat">Alamat: </label>
-                <input type="text" name="alamat" id="alamat" value=<?= $data['asal'] ?>>
+                <input type="text" name="alamat" id="alamat" value="<?= htmlspecialchars($data['asal'], ENT_QUOTES, 'UTF-8') ?>" required>
             </div>
             <div>
                 <label for="tanggal lahir">Tanggal Lahir: </label>
-                <input type="date" name="tanggal_lahir" id="tanggal lahir" value=<?= $data['tanggal_lahir'] ?>>
+                <input type="date" name="tanggal_lahir" id="tanggal lahir" value="<?= htmlspecialchars($data['tanggal_lahir'], ENT_QUOTES, 'UTF-8') ?>" required>
             </div>
             <button type="submit" name="submit">
                 SIMPAN
