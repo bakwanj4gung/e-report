@@ -49,7 +49,7 @@ $formatter->setPattern('EEEE, dd MMMM yyyy');
                 <?php while ($row = mysqli_fetch_assoc($reports)) {  ?>
                     <?php //make new object time with data from db 
                     $uploadDate = new DateTime($row['upload_date']); 
-                    $incidentDate = new DateTime($row['upload_date']); 
+                    $incidentDate = new DateTime($row['date']); 
                     ?>
                 <tr>
                     <td><?= $i++ ?></td>
