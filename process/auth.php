@@ -10,23 +10,26 @@ function register($request) {
 
     if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return [
-            'error' => true, 
-            'message' => 'Email tidak valid.'
+            'error' => true,
+            'errorEmail' => true,
+            'messageEmail' => 'Email tidak valid.'
         ];
     }
 
     $fetchUser = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email'");
     if( mysqli_num_rows($fetchUser) > 0 ) {
         return [
-            'error' => true, 
-            'message' => 'Email sudah digunakan. Coba email lain'
+            'error' => true,
+            'errorEmail' => true,
+            'messageEmail' => 'Email sudah digunakan. Coba email lain'
         ];
     }
 
     if ($pw !== $pw2) {
         return [
-            'error' => true, 
-            'message' => 'Password tidak cocok.'
+            'error' => true,
+            'errorPw' => true, 
+            'messagePw' => 'Password tidak cocok.'
         ];
     }
 
@@ -56,8 +59,9 @@ function login($request) {
 
     if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return [
-            'error' => true, 
-            'message' => 'Email tidak valid.'
+            'error' => true,
+            'errorEmail' => true,
+            'messageEmail' => 'Email tidak valid.'
         ];
     }
 
@@ -82,14 +86,16 @@ function login($request) {
             exit;
         } else {
             return [
-                'error' => true, 
-                'message' => 'Password tidak valid.'
+                'error' => true,
+                'errorPw' => true,
+                'messagePw' => 'Password salah.'
             ];
         }
     } else {
         return [
-            'error' => true, 
-            'message' => 'Email salah.'
+            'error' => true,
+            'errorEmail' => true,
+            'messageEmail' => 'Email salah.'
         ];
     }
 }

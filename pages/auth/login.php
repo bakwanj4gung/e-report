@@ -8,12 +8,11 @@ if ( isset($_SESSION['login']) && $_SESSION['login'] === 'Sudah Login' ) {
 require '../../process/auth.php';
 
 if (isset($_POST['login'])) {
-    $result = login($_POST);
+    $response = login($_POST);
 
-    if ($result['error']) {
-        echo "<script>
-            alert('" . $result['message'] . "');
-        </script>";
+    if (!$response['error']) {
+        header('Location: ../dashboard.php');
+        exit;
     }
 }
 ?>
@@ -33,12 +32,12 @@ if (isset($_POST['login'])) {
                     <div>
                         <label for="email">Email</label>
                         <input type="email" name="email" id="email" placeholder="stephen@email.com" required>
-                        <p class="important">pesan error</p>
+                        <?php if( isset($response['errorEmail']) ) { ?><p class="important"><?= $response['messageEmail'] ?></p><?php } ?>
                     </div>
                     <div>
                         <label for="pw">Password</label>
                         <input type="password" name="pw" id="pw" required>
-                        <p class="important">pesan error</p>
+                        <?php if( isset($response['errorPw']) ) { ?><p class="important"><?= $response['messagePw'] ?></p><?php } ?>
                     </div>
                     <div>
                         <button class="button1" type="submit" name="login">Masuk</button>

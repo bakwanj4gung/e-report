@@ -9,14 +9,11 @@ require_once('../../process/auth.php');
 
 if (isset($_POST['register'])) {
     $response = register($_POST);
-    $message = $response['message'];
+    $message = $response['message'] ?? null;
 
-    if ($response['error']) {
-        echo "<script>alert('$message');</script>";
-    } else {
-        echo 
+    if (!$response['error']) {
+        echo
         "<script>
-                alert('$message');
                 window.location.replace('login.php');
         </script>";
     }
@@ -39,22 +36,21 @@ if (isset($_POST['register'])) {
                     <div>
                         <label for="nama">Nama</label>
                         <input type="text" name="name" id="nama" placeholder="Stephen Jhon" required>
-                        <p class="important">pesan error</p>
                     </div>
                     <div>
                         <label for="email">Email</label>
                         <input type="email" name="email" id="email" placeholder="stephen@email.com" required>
-                        <p class="important">pesan error</p>
+                        <?php if( isset($response['errorEmail']) ) { ?><p class="important"><?= $response['messageEmail'] ?></p><?php } ?>
                     </div>
                     <div>
                         <label for="pw">Password</label>
                         <input type="password" name="pw" id="pw" required>
-                        <p class="important">pesan error</p>
+                        <?php if( isset($response['errorPw']) ) { ?><p class="important"><?= $response['messagePw'] ?></p><?php } ?>
                     </div>
                     <div>
                         <label for="pw2">Konfimasi Password</label>
                         <input type="password" name="pw2" id="pw2" required>
-                        <p class="important">pesan error</p>
+                        <?php if( isset($response['errorPw']) ) { ?><p class="important"><?= $response['messagePw'] ?></p><?php } ?>
                     </div>
                     <div>
                         <button class="button1" type="submit" name="register">Daftar</button>
