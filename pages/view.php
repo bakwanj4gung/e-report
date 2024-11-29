@@ -7,10 +7,16 @@ if ( !isset($_SESSION['login']) && $_SESSION['login'] !== 'Sudah Login' ) {
 
 require_once('../process/crud.php');
 
-// $reports = view();
 $reports = read();
 $i = 1;
 
+$formatter = new IntlDateFormatter(
+    'id_ID',
+    IntlDateFormatter::FULL, 
+    IntlDateFormatter::NONE 
+);
+// object, so use [->]
+$formatter->setPattern('EEEE, dd MMMM yyyy'); 
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -41,10 +47,14 @@ $i = 1;
                     </tr>
                 <?php } ?>
                 <?php while ($row = mysqli_fetch_assoc($reports)) {  ?>
+                    <?php //make new object time with data from db 
+                    $uploadDate = new DateTime($row['upload_date']); 
+                    $incidentDate = new DateTime($row['upload_date']); 
+                    ?>
                 <tr>
                     <td><?= $i++ ?></td>
-                    <td><?= $row['upload_date'] ?></td>
-                    <td><?= $row['date'] ?></td>
+                    <td><?= $formatter->format($uploadDate); ?></td>
+                    <td><?= $formatter->format($incidentDate); ?></td>
                     <td><?= $row['subject'] ?></td>
                     <td>
                         <form title="Edit Pengajuan" action="edit.php" method="get">
@@ -68,7 +78,7 @@ function confirmDelete(event) {
     if (confirm("Are you sure you want to delete this data?")) {
         document.querySelector("#delete").submit();
     } else {
-        // Mencegah pengiriman form jika user memilih "Cancel"
+        
         event.preventDefault();
     }
 }
